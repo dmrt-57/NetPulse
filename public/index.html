@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetPulse — İnternet Hız Testi</title>
+<style>
+:root{color-scheme:dark;--bg:#070d1b;--panel:#101a30;--line:#23314d;--text:#f4f7ff;--muted:#8c9bb7;--cyan:#35d7f2;--blue:#6a8bff;--purple:#a78bfa;--green:#53e0a0;--red:#ff7887}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#1b3154 0,transparent 50%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1120px;margin:auto;padding:26px 22px 50px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px;font-size:25px;font-weight:800;letter-spacing:-.8px}.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#31d7ef,#5c7dff);font-size:22px}.brand span{color:var(--cyan)}.badge{border:1px solid var(--line);border-radius:30px;padding:8px 12px;color:#b9c5db;font-size:12px}.hero{text-align:center;margin:42px 0 30px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:4px;color:var(--cyan)}h1{font-size:clamp(30px,5vw,46px);line-height:1.12;letter-spacing:-1.8px;margin:12px 0}.hero p{color:var(--muted);margin:0}
+.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,.85fr);gap:18px}.card{background:linear-gradient(145deg,rgba(18,29,52,.97),rgba(12,20,38,.97));border:1px solid var(--line);border-radius:23px;padding:24px;box-shadow:0 20px 60px #0002}.cardhead{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;font-weight:750;letter-spacing:1.6px}.state{letter-spacing:0;color:var(--green);font-size:12px}.meter{height:300px;display:flex;align-items:center;justify-content:center;position:relative;margin:8px auto 4px;max-width:540px}.meter svg{position:absolute;width:100%;height:100%;overflow:visible}.arc-bg{fill:none;stroke:#26334f;stroke-width:17;stroke-linecap:round}.arc{fill:none;stroke:url(#grad);stroke-width:17;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .18s linear}.readout{position:relative;text-align:center;margin-top:40px}.value{font-size:clamp(54px,8vw,86px);font-weight:800;letter-spacing:-4px;line-height:1.05;font-variant-numeric:tabular-nums}.unit{color:#9eacc5;font-size:18px;margin-top:5px}.phase{font-size:13px;letter-spacing:2px;color:var(--cyan);font-weight:800;margin-top:16px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{border:1px solid var(--line);border-radius:17px;background:#091225;padding:16px}.statlabel{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13px}.icon{width:28px;height:28px;border-radius:9px;background:#103043;color:var(--cyan);display:grid;place-items:center;font-size:18px}.upload .icon{background:#2a2148;color:var(--purple)}.statval{font-size:26px;font-weight:800;margin-top:7px;font-variant-numeric:tabular-nums}.statval small{font-size:12px;color:var(--muted);font-weight:500}.buttonrow{display:flex;justify-content:center;margin:20px 0 8px}.primary{border:0;border-radius:14px;padding:15px 27px;background:linear-gradient(100deg,#32d7ee,#65a6ff);color:#061426;font-size:15px;font-weight:800;cursor:pointer;min-width:210px}.primary:disabled{opacity:.55;cursor:wait}.fine{text-align:center;color:#7786a1;font-size:12px;margin-top:10px}.side{display:flex;flex-direction:column;gap:18px}.title{font-size:16px;font-weight:750;margin:0 0 15px}.serverbox{border:1px solid var(--line);background:#091225;border-radius:15px;padding:14px;display:flex;gap:12px;align-items:center}.servericon{height:40px;width:40px;display:grid;place-items:center;border-radius:12px;background:#103043;color:var(--cyan);font-size:20px}.server-name{font-weight:750}.server-desc{color:var(--muted);font-size:12px}.selectlabel{display:block;color:var(--muted);font-size:12px;margin:17px 0 7px}.select{width:100%;background:#0a1428;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:13px;font:inherit}.latency{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.latbox{background:#091225;border:1px solid var(--line);border-radius:14px;text-align:center;padding:13px 5px}.latbox label{display:block;color:var(--muted);font-size:11px}.latbox strong{display:block;font-size:22px;margin-top:5px}.latbox small{font-size:11px;color:var(--muted)}.notice{font-size:12px;color:var(--muted);margin:12px 0 0}.history{margin-top:18px}.historyhead{display:flex;justify-content:space-between;align-items:center}.clear{background:none;border:0;color:var(--cyan);cursor:pointer}.historyitem{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;border:1px solid var(--line);background:#091225;border-radius:13px;padding:14px;margin-top:10px}.historyitem small{color:var(--muted)}.error{color:var(--red)}.footer{color:#63718c;font-size:11px;text-align:center;margin-top:25px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.hero{margin-top:32px}.meter{height:260px}.top{align-items:flex-start}.badge{max-width:150px;text-align:center}.wrap{padding:18px 13px 35px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand"><div class="logo">◉</div><div>Net <span>Pulse</span></div></div><div class="badge" id="statusBadge">● Hazır</div></header>
+<section class="hero"><div class="eyebrow">BAĞLANTININ GERÇEK PERFORMANSI</div><h1>İnternetin ne kadar hızlı?</h1><p>İndirme, yükleme ve gecikme değerlerini ayrı ayrı ölç.</p></section>
+<main class="layout">
+<section class="card">
+<div class="cardhead"><span>HIZ TESTİ</span><span class="state" id="state">Teste hazır</span></div>
+<div class="meter">
+<svg viewBox="0 0 500 300" aria-hidden="true"><defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#35d7f2"/><stop offset="1" stop-color="#788bff"/></linearGradient></defs><path class="arc-bg" d="M 55 255 A 195 195 0 0 1 445 255"/><path id="arc" class="arc" d="M 55 255 A 195 195 0 0 1 445 255"/></svg>
+<div class="readout"><div class="value" id="speed">—</div><div class="unit">Mbps</div><div class="phase" id="phase">TESTE HAZIR</div></div>
+</div>
+<div class="stats">
+<div class="stat"><div class="statlabel"><span class="icon">↓</span> İndirme (Download)</div><div class="statval" id="download">— <small>Mbps</small></div></div>
+<div class="stat upload"><div class="statlabel"><span class="icon">↑</span> Yükleme (Upload)</div><div class="statval" id="upload">— <small>Mbps</small></div></div>
+</div>
+<div class="buttonrow"><button class="primary" id="start">Hız Testini Başlat</button></div>
+<div class="fine" id="fine">Sonuçlar seçilen test hedefine ve ağ koşullarına bağlıdır.</div>
+</section>
+<aside class="side">
+<section class="card">
+<h2 class="title">Bağlantı sunucusu</h2>
+<div class="serverbox"><div class="servericon">▤</div><div><div class="server-name" id="serverName">Cloudflare Speed Test</div><div class="server-desc" id="serverDesc">Global test ağı</div></div></div>
+<label class="selectlabel" for="server">Test hedefi</label>
+<select class="select" id="server"><option value="cloudflare">Cloudflare — Global (internet testi)</option><option value="local">Bu cihazdaki NetPulse — Yerel kontrol</option></select>
+<p class="notice" id="serverNote">Cloudflare, genel internet bağlantını ölçen global bir test hedefidir. Bu seçenek ülke bazlı sunucu seçimi değildir.</p>
+</section>
+<section class="card">
+<h2 class="title">Gecikme değerleri</h2>
+<div class="latency">
+<div class="latbox"><label>Ping</label><strong id="ping">—<small> ms</small></strong></div>
+<div class="latbox"><label>Jitter</label><strong id="jitter">—<small> ms</small></strong></div>
+<div class="latbox"><label>Paket kaybı</label><strong id="loss">—<small>%</small></strong></div>
+</div>
+<p class="notice" id="latencyNote">Ping ve jitter HTTP istekleriyle yaklaşık ölçülür. Bu tarayıcı testi ICMP paket kaybını ölçmez; sayı uydurulmaz.</p>
+</section>
+</aside>
+</main>
+<section class="card history">
+<div class="historyhead"><h2 class="title" style="margin:0">Son testlerin</h2><button class="clear" id="clearHistory">Geçmişi temizle</button></div>
+<div id="historyList"><p class="notice">Henüz test sonucu yok.</p></div>
+</section>
+<div class="footer">NetPulse · Sonuçları yorumlarken test hedefini, Wi-Fi/Ethernet bağlantını ve ağ yoğunluğunu dikkate al.</div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const arc = $("arc");
+const arcLength = arc.getTotalLength();
+arc.style.strokeDasharray = arcLength;
+arc.style.strokeDashoffset = arcLength;
+let running = false;
+let history = [];
+try { history = JSON.parse(localStorage.getItem("netpulse-history") || "[]"); } catch {}
+const fmt = (n, digits=1) => Number.isFinite(n) ? n.toLocaleString("tr-TR",{maximumFractionDigits:digits,minimumFractionDigits:digits}) : "—";
+function setArc(mbps) {
+  const ratio = Math.max(0, Math.min(1, Math.log10(Math.max(1,mbps)+1)/Math.log10(1001)));
+  arc.style.strokeDashoffset = arcLength * (1-ratio);
+}
+function setSpeed(n) { $("speed").textContent = fmt(n,1); setArc(n); }
+function phase(text, state=text) { $("phase").textContent = text.toLocaleUpperCase("tr-TR"); $("state").textContent = state; }
+function resetMetrics() {
+  $("download").innerHTML = "— <small>Mbps</small>"; $("upload").innerHTML = "— <small>Mbps</small>";
+  $("ping").innerHTML = "—<small> ms</small>"; $("jitter").innerHTML = "—<small> ms</small>"; $("loss").innerHTML = "—<small>%</small>";
+  setSpeed(0);
+}
+function saveHistory(result) {
+  history.unshift(result); history = history.slice(0,8);
+  localStorage.setItem("netpulse-history",JSON.stringify(history)); renderHistory();
+}
+function renderHistory() {
+  const el = $("historyList");
+  if (!history.length) { el.innerHTML = '<p class="notice">Henüz test sonucu yok.</p>'; return; }
+  el.innerHTML = history.map(x => `<div class="historyitem"><div><b>${x.down} Mbps ↓</b> &nbsp; <b>${x.up} Mbps ↑</b><br><small>${x.date} · ${x.target}</small></div><div><small>Ping ${x.ping} ms · Jitter ${x.jitter} ms</small></div></div>`).join("");
+}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+async function timedFetch(url, options={}) {
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(),15000);
+  try { return await fetch(url,{...options,signal:controller.signal,cache:"no-store"}); }
+  finally { clearTimeout(timer); }
+}
+async function measureLatency(url) {
+  const times=[];
+  for(let i=0;i<8;i++){
+    const start=performance.now();
+    try{
+      const r=await timedFetch(url + (url.includes("?")?"&":"?") + "cb="+Date.now()+"_"+i,{method:"GET",mode:"cors"});
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      await r.arrayBuffer();
+      times.push(performance.now()-start);
+    }catch(e){ /* failed HTTP probes are not falsely counted as ICMP packet loss */ }
+  }
+  if(times.length<4) throw new Error("Ping kontrolü için yeterli yanıt alınamadı.");
+  const avg=times.reduce((a,b)=>a+b,0)/times.length;
+  const jitter=times.slice(1).reduce((a,b,i)=>a+Math.abs(b-times[i]),0)/Math.max(1,times.length-1);
+  return {ping:avg,jitter,success:times.length,total:8};
+}
+async function downloadTest(url) {
+  const sizes=[1,5,10,20];
+  let best=0;
+  for(const mb of sizes){
+    const u=url + (url.includes("?")?"&":"?")+"bytes="+(mb*1000000)+"&cb="+Date.now();
+    const t0=performance.now();
+    const r=await timedFetch(u,{method:"GET",mode:"cors"});
+    if(!r.ok) throw new Error("İndirme isteği başarısız: HTTP "+r.status);
+    const data=await r.arrayBuffer();
+    const seconds=(performance.now()-t0)/1000;
+    if(!data.byteLength || seconds<=0) throw new Error("İndirme verisi alınamadı.");
+    best=(data.byteLength*8/seconds)/1e6;
+    setSpeed(best); phase("İNDİRME ÖLÇÜLÜYOR","Download testi sürüyor");
+    $("fine").textContent=`İndirilen veri: ${(data.byteLength/1000000).toFixed(1)} MB`;
+    if(seconds>5 && mb>=5) break;
+  }
+  return best;
+}
+async function uploadTest(url) {
+  const sizes=[1,3,6];
+  let best=0;
+  for(const mb of sizes){
+    const bytes=mb*1000000;
+    const blob=new Blob([new Uint8Array(bytes)],{type:"application/octet-stream"});
+    const t0=performance.now();
+    const r=await timedFetch(url,{method:"POST",mode:"cors",headers:{"content-type":"application/octet-stream"},body:blob});
+    if(!r.ok) throw new Error("Yükleme isteği başarısız: HTTP "+r.status);
+    await r.arrayBuffer();
+    const seconds=(performance.now()-t0)/1000;
+    best=(bytes*8/seconds)/1e6;
+    setSpeed(best); phase("YÜKLEME ÖLÇÜLÜYOR","Upload testi sürüyor");
+    $("fine").textContent=`Yüklenen veri: ${(bytes/1000000).toFixed(1)} MB`;
+    if(seconds>5 && mb>=3) break;
+  }
+  return best;
+}
+async function localTest() {
+  const start=performance.now();
+  const r=await fetch("/health?cb="+Date.now(),{cache:"no-store"});
+  if(!r.ok) throw new Error("Yerel sunucuya erişilemedi.");
+  await r.json();
+  const ms=performance.now()-start;
+  $("ping").innerHTML=fmt(ms,1)+'<small> ms</small>';
+  $("jitter").innerHTML='0,0<small> ms</small>';
+  $("loss").innerHTML='—<small>%</small>';
+  $("latencyNote").textContent="Bu hedef yalnızca bu bilgisayardaki yerel uygulamayı kontrol eder; internet hızını ölçmez.";
+  $("download").innerHTML='Yerel<small> kontrol</small>'; $("upload").innerHTML='Yerel<small> kontrol</small>';
+  setSpeed(0); phase("YEREL KONTROL TAMAM","Bağlantı hazır");
+  $("fine").textContent="Bu sonuç internet hız testi değildir.";
+}
+$("server").addEventListener("change",()=>{
+  if($("server").value==="local"){
+    $("serverName").textContent="Bu cihazdaki NetPulse"; $("serverDesc").textContent="Yerel tanılama";
+    $("serverNote").textContent="Bu seçenek yalnızca uygulamanın yerel olarak çalıştığını kontrol eder; internet hızını ölçmez.";
+  } else {
+    $("serverName").textContent="Cloudflare Speed Test"; $("serverDesc").textContent="Global test ağı";
+    $("serverNote").textContent="Cloudflare, genel internet bağlantını ölçen global bir test hedefidir. Bu seçenek ülke bazlı sunucu seçimi değildir.";
+    $("latencyNote").textContent="Ping ve jitter HTTP istekleriyle yaklaşık ölçülür. Bu tarayıcı testi ICMP paket kaybını ölçmez; sayı uydurulmaz.";
+  }
+});
+$("start").addEventListener("click",async()=>{
+  if(running)return;
+  running=true; $("start").disabled=true; $("start").textContent="Test yapılıyor…"; $("statusBadge").textContent="● Ölçüm sürüyor"; $("statusBadge").style.color="var(--cyan)";
+  resetMetrics();
+  const selected=$("server").value;
+  if(selected==="local"){
+    try{await localTest();}catch(e){phase("TEST BAŞARISIZ","Yerel kontrol başarısız");$("fine").textContent=e.message;}
+    finally{running=false;$("start").disabled=false;$("start").textContent="Tekrar Test Et";$("statusBadge").textContent="● Hazır";} return;
+  }
+  const downUrl="https://speed.cloudflare.com/__down";
+  const upUrl="https://speed.cloudflare.com/__up";
+  try{
+    phase("PING ÖLÇÜLÜYOR","Gecikme kontrolü");
+    const lat=await measureLatency(downUrl);
+    $("ping").innerHTML=fmt(lat.ping,1)+'<small> ms</small>';
+    $("jitter").innerHTML=fmt(lat.jitter,1)+'<small> ms</small>';
+    $("loss").innerHTML='—<small>%</small>';
+    $("latencyNote").textContent=`HTTP kontrolü: ${lat.success}/${lat.total} istek yanıt verdi. Bu, ICMP paket kaybı ölçümü değildir.`;
+    phase("İNDİRME ÖLÇÜLÜYOR","Download testi sürüyor");
+    const down=await downloadTest(downUrl);
+    $("download").innerHTML=fmt(down,1)+' <small>Mbps</small>';
+    phase("YÜKLEME ÖLÇÜLÜYOR","Upload testi sürüyor");
+    const up=await uploadTest(upUrl);
+    $("upload").innerHTML=fmt(up,1)+' <small>Mbps</small>';
+    setSpeed(up); phase("TEST TAMAMLANDI","Ölçüm tamamlandı");
+    saveHistory({down:fmt(down,1),up:fmt(up,1),ping:fmt(lat.ping,1),jitter:fmt(lat.jitter,1),date:new Date().toLocaleString("tr-TR",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}),target:"Cloudflare Global"});
+    $("fine").textContent="Download ve upload ayrı ölçüldü. Sonuçlar Cloudflare'ın global test ağına olan bağlantını yansıtır.";
+  }catch(e){
+    phase("TEST BAŞARISIZ","Ölçüm başarısız");
+    $("fine").innerHTML=`<span class="error">${e.name==="AbortError"?"İstek zaman aşımına uğradı.":e.message||"Test hedefiyle bağlantı kurulamadı."}</span> İzinler, ağ veya test hedefi erişimi engelliyor olabilir.`;
+  }finally{
+    running=false;$("start").disabled=false;$("start").textContent="Tekrar Test Et";$("statusBadge").textContent="● Hazır";$("statusBadge").style.color="var(--green)";
+  }
+});
+$("clearHistory").addEventListener("click",()=>{history=[];localStorage.removeItem("netpulse-history");renderHistory();});
+renderHistory();
+</script>
+</body>
+</html>
